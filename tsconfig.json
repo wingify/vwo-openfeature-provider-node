@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "noEmit": false,
+    "moduleResolution":"Node",
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["node_modules", "src"]
+    },
+    "outDir": "dist/",
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "module": "commonjs",
+    "target": "es6",
+    "removeComments": false,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ]
+  },
+  "include": ["./src/**/*"],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "*.js"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "name": "vwo-openfeature-provider-node",
+  "version": "0.1.0",
+  "description": "Openfeature Provider for VWO Node SDK",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build && yarn run uglify",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "prettier -w src/**/*.ts *.md",
+    "uglify": "uglifyjs ./dist/index.js --compress --mangle --source-map --output ./dist/index.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wingify/vwo-openfeature-provider-node.git"
+  },
+  "author": "VWO",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/wingify/vwo-openfeature-provider-node/issues"
+  },
+  "homepage": "https://github.com/wingify/vwo-openfeature-provider-node#readme",
+  "peerDependencies": {
+    "@openfeature/server-sdk": "^1.13.5"
+  },
+  "devDependencies": {
+    "@openfeature/server-sdk": "^1.6.3",
+    "@openfeature/core": "1.1.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5",
+    "uglify-js": "^3.17.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "globOptions": {
+      "matchBase": false
+    },
+    "linters": {
+      "**/*.js": [
+        "yarn lint",
+        "prettier",
+        "git add"
+      ],
+      "**/*.{json,md}": [
+        "prettier",
+        "git add"
+      ]
+    }
+  },
+  "keywords": [
+    "Openfeature",
+    "Openfeature Provider",
+    "VWO",
+    "Node",
+    "SDK"
+  ]
+}
