@@ -27,13 +27,7 @@ const vwo = require('vwo-node');
 async function start() {
   const vwoClient = await vwo.init({
     sdkKey: '<enter-vwo-sdk-key-here>',
-    accountId: '<vwo-account-id>',
-    // If Using Web Service, enter URL
-    webService: {
-      url: 'localhost:8000',
-    },
-    // If using any storage connector
-    // storage: storageConnector
+    accountId: '<vwo-account-id>'
   });
   const context = {
     user: {

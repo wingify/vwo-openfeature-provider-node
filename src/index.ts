@@ -56,10 +56,11 @@ export class VWOProvider implements Provider {
   ): Promise<ResolutionDetails<boolean>> {
     const getFlag = await this.client.getFlag(flagKey, context);
     const variables = getFlag.getVariables();
+
     return {
       value: context.key
-        ? variables.find((val) => val.type === 'boolean' && val.key === context.key)?.value
-        : getFlag.isEnabled,
+        ? (variables.find((val) => val.type === 'boolean' && val.key === context.key)?.value || defaultValue)
+        : getFlag.isEnabled(),
     };
   }
 
@@ -135,7 +136,7 @@ export class VWOProvider implements Provider {
     const getFlag = await this.client.getFlag(flagKey, context);
     const variables = getFlag.getVariables() || defaultValue;
     return {
-      value: context.key ? variables.find((val) => val.type === 'json' && val.key === context.key)?.value : variables,
+      value: context.key ? variables.find((val) => val.type === 'json' && val.key === context.key)?.value || defaultValue : variables,
     };
   }
 
