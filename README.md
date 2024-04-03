@@ -22,7 +22,7 @@ yarn add vwo-openfeature-provider-node
 ```javascript
 const OpenFeature = require('@openfeature/server-sdk').OpenFeature;
 const VWOProvider = require('vwo-openfeature-provider-node').VWOProvider;
-const vwo = require('vwo-node');
+const vwo = require('vwo-fme-node-sdk');
 
 async function start() {
   const vwoClient = await vwo.init({
