@@ -1,25 +1,21 @@
 {
   "compilerOptions": {
     "noEmit": false,
-    "moduleResolution":"Node",
-    "baseUrl": "./src",
+    "moduleResolution": "nodenext",
     "paths": {
-      "*": ["node_modules", "src"]
+      "@self/*": ["./src/*"]
     },
-    "outDir": "dist/",
+    "rootDir": "./src",
+    "outDir": "dist",
     "noImplicitAny": false,
     "noImplicitThis": false,
-    "module": "commonjs",
-    "target": "es6",
+    "module": "nodenext",
+    "target": "es2022",
     "removeComments": false,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "skipLibCheck": true,
-    "lib": [
-      "es2015",
-      "dom"
-    ]
+    "skipLibCheck": true
   },
   "include": ["./src/**/*"],
   "exclude": [

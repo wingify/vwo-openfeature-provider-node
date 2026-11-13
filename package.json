@@ -4,6 +4,9 @@
   "description": "Openfeature Provider for VWO Node SDK",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
@@ -24,16 +27,19 @@
   },
   "homepage": "https://github.com/wingify/vwo-openfeature-provider-node#readme",
   "peerDependencies": {
-    "@openfeature/server-sdk": "^1.13.5"
+    "@openfeature/server-sdk": "^1.23.0",
+    "wingify-fme-node-sdk": "^1.80.0"
   },
   "devDependencies": {
-    "@openfeature/server-sdk": "^1.6.3",
-    "@openfeature/core": "1.1.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5",
+    "@openfeature/core": "^1.12.0",
+    "@openfeature/server-sdk": "^1.23.0",
+    "eslint": "^10.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.10.1",
     "typescript": "^5.4.5",
-    "uglify-js": "^3.17.4"
+    "uglify-js": "^3.19.3",
+    "wingify-fme-node-sdk": "^1.80.0"
   },
   "husky": {
     "hooks": {
