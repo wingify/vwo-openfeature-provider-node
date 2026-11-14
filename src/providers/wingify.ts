@@ -132,7 +132,7 @@ export class WingifyProvider implements Provider {
       }
       // If we wanted a boolean value, we return `true` directly
       if (expectedType === 'boolean')
-        return { value: true as T};
+        return { value: true as T, variant: variantKey, reason: 'TARGETING_MATCH' };
       // If we are here, it means that we can resolve the whole variables set
       const variablesDictionary = Object.create(null) as T;
       for (const variable of flagVariables) {
