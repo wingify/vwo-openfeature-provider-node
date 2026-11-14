@@ -36,7 +36,7 @@ import {
 import { } from 'wingify-fme-node-sdk/node';
 
 type EvaluationType = 'string' | 'boolean' | 'number' | 'object';
-type WingifyVariableType = 'string' | 'boolean' | 'float' | 'double' | 'int' | 'json';
+type WingifyVariableType = 'string' | 'boolean' | 'float' | 'double' | 'int' | 'integer' | 'json';
 type WingifyVariable = {
   getKey(): string;
   getType(): WingifyVariableType;
@@ -84,7 +84,7 @@ export class WingifyProvider implements Provider {
     switch (expectedType) {
       case 'boolean': return actualType === 'boolean' && typeof value === 'boolean';
       case 'number':
-        return (actualType === 'int' || actualType === 'float' || actualType === 'double') && typeof value === 'number';
+        return (actualType === 'int' || actualType === 'integer' || actualType === 'float' || actualType === 'double') && typeof value === 'number';
       case 'string': return actualType === 'string' && typeof value === 'string';
       case 'object':
         if (actualType !== 'json') return false;
@@ -104,7 +104,7 @@ export class WingifyProvider implements Provider {
       // We retrieve the flag
       const flag = await this.#client!.getFlag(flagKey, ctx);
       if (!flag.isEnabled())
-        // NOTE: currently is not possible to understand if a Flag is disabled because matched a tergeting rule,
+        // NOTE: currently is not possible to understand if a Flag is disabled because didn't match a tergeting rule,
         // or because it's really disabled or because is not available in the catalog,
         // so for now we use only DISABLED as a reason.
         // TODO: Suggestion to Wingify developers is to expose an additional property on Flag that tell the reason
