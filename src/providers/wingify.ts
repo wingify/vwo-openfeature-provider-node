@@ -27,6 +27,7 @@ import {
   type Provider,
   type ResolutionDetails,
 } from '@openfeature/server-sdk';
+import { isValidObject } from '@self/utils';
 import {
   init as buildClient,
   type IWingifyClient,
@@ -44,9 +45,7 @@ type WingifyVariable = {
 }
 
 /**
- * Implement the provider interface
- * Construct a VWO Provider fro Openfeature
- * @param client VWO Client to access various APIs
+ * Implement the OpenFeature provider interface to integrate with the Wingify platform
  */
 export class WingifyProvider implements Provider {
   // Adds runtime validation that the provider is used with the expected SDK
@@ -63,8 +62,25 @@ export class WingifyProvider implements Provider {
   readonly #clientOptions: IWingifyOptions;
   #client?: IWingifyClient;
 
+  /**
+   * Construct a Wingify Provider for OpenFeature
+   * @param {IWingifyOptions} options The `IWingifyOptions` to use when initializing the `WingifyClient` during the `initialize()` phase
+   */
   constructor(options: IWingifyOptions) {
     this.#clientOptions = options;
+  }
+
+  /**
+   * Validate the `IWingifyOptions` provided
+   * @param options 
+   */
+  #validateOptions(options: IWingifyOptions) {
+    if (!isValidObject(options))
+      throw new Error('The provided options must be a valid object that implements the IWingifyOptions interface.');
+    if (typeof options.sdkKey !== 'string' || options.sdkKey.length === 0)
+      throw new Error('The provided options must contain a non-empty string value for `sdkKey`.');
+    if (typeof options.accountId !== 'string' || options.accountId.length === 0)
+      throw new Error('The provided options must contain a non-empty string value for `accountId`.');
   }
 
   public async initialize(context?: EvaluationContext, domain?: string): Promise<void> {
@@ -77,6 +93,10 @@ export class WingifyProvider implements Provider {
   }
 
   public async onClose(): Promise<void> {
+    try {
+    } catch(err) {
+
+    }
       await this.#client?.shutdown();
   }
 
@@ -86,10 +106,7 @@ export class WingifyProvider implements Provider {
       case 'number':
         return (actualType === 'int' || actualType === 'integer' || actualType === 'float' || actualType === 'double') && typeof value === 'number';
       case 'string': return actualType === 'string' && typeof value === 'string';
-      case 'object':
-        if (actualType !== 'json') return false;
-        const prototype = Object.getPrototypeOf(value);
-        return prototype === Object.prototype || prototype === null;
+      case 'object': return actualType === 'json' && isValidObject(value);
       default: return false;
     }
   }
@@ -108,7 +125,7 @@ export class WingifyProvider implements Provider {
         // or because it's really disabled or because is not available in the catalog,
         // so for now we use only DISABLED as a reason.
         // TODO: Suggestion to Wingify developers is to expose an additional property on Flag that tell the reason
-        // of why it's disable/enabled or some similar info that will make easier to integrate with OpenFeature specs
+        // of why it's disabled/enabled or some similar info that will make easier to integrate with OpenFeature specs
         // and provide meaningful info through ResolutionDetails objects.
         return { value: expectedType === 'boolean' ? false as T : defaultValue, reason: StandardResolutionReasons.DISABLED };
       // When flag is enabled, we try to get the associated variation, if any, to understand the reason behind the flag value
