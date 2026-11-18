@@ -13,7 +13,7 @@
  * @param value 
  * @returns `true` if the provided value is a valid object, otherwise `false`
  */
-export function isValidObject<T = Record<string, any>>(value: unknown): value is T {
+export function isValidObject<T = Record<string, unknown>>(value: unknown): value is T {
     if (value === undefined || value === null) return false;
     if (typeof value !== 'object') return false;
     if (Array.isArray(value)) return false;

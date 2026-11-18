@@ -27,7 +27,7 @@ import {
   type Provider,
   type ResolutionDetails,
 } from '@openfeature/server-sdk';
-import { isValidObject } from '@self/utils';
+import { isValidObject } from '../utils';
 import {
   init as buildClient,
   type IWingifyClient,
@@ -67,6 +67,7 @@ export class WingifyProvider implements Provider {
    * @param {IWingifyOptions} options The `IWingifyOptions` to use when initializing the `WingifyClient` during the `initialize()` phase
    */
   constructor(options: IWingifyOptions) {
+    this.#validateOptions(options);
     this.#clientOptions = options;
   }
 
@@ -83,21 +84,23 @@ export class WingifyProvider implements Provider {
       throw new Error('The provided options must contain a non-empty string value for `accountId`.');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async initialize(context?: EvaluationContext, domain?: string): Promise<void> {
     try {
         this.#client = await buildClient(this.#clientOptions);
         this.events.emit(ProviderEvents.Ready);
-    } catch(err) {
-        this.events.emit(ProviderEvents.Error);
+    }
+    catch(err) {
+        this.events.emit(ProviderEvents.Error, { message: `${err}`, metadata: { phase: 'initialize' }});
     }
   }
 
   public async onClose(): Promise<void> {
     try {
-    } catch(err) {
-
-    }
       await this.#client?.shutdown();
+    } catch(err) {
+      this.events.emit(ProviderEvents.Error, { message: `${err}`, metadata: { phase: 'onClose' }});
+    }
   }
 
   #isExpectedValueType<T>(value: unknown, expectedType: EvaluationType, actualType: WingifyVariableType): value is T {
@@ -111,6 +114,7 @@ export class WingifyProvider implements Provider {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async #resolveEvaluation<T>(expectedType: EvaluationType, flagKey: string, ctx: EvaluationContext, defaultValue: T, logger: Logger): Promise<ResolutionDetails<T>> {
     try {
       // We first validate the evaluation context

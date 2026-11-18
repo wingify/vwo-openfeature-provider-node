@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
+
 /**
  * Copyright 2024 Wingify Software Pvt. Ltd.
  *

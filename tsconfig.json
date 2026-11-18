@@ -2,9 +2,6 @@
   "compilerOptions": {
     "noEmit": false,
     "moduleResolution": "nodenext",
-    "paths": {
-      "@self/*": ["./src/*"]
-    },
     "rootDir": "./src",
     "outDir": "dist",
     "noImplicitAny": false,
